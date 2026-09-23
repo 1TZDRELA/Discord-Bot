@@ -14,7 +14,17 @@ def build_client() -> DiscordClient:
     """Construct the client and register every slash command on its tree."""
     client = DiscordClient()
     sender = Sender()
+    @client.event
+    async def on_message(message: discord.Message) -> None:
+        if message.author.bot:
+            return
 
+        if client.user not in message.mentions:
+            return
+
+        prompt = message.content.replace(client.user.mention, "").strip()
+        response = f"Nova here, you said: {prompt}"
+        await message.reply(response)
     @client.tree.command(name="start_session", description="Start a New Single Session.")
     @discord.app_commands.rename(user_input="message")
     @discord.app_commands.describe(user_input="What you want to ask. Starts a fresh single session.")
