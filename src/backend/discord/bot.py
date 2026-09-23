@@ -12,7 +12,7 @@ MESSAGE_LIMIT = 2000
 # presences: requesting message_content without enabling it in the Discord
 # Developer Portal makes login fail outright with PrivilegedIntentsRequired.
 intents = discord.Intents.default()
-
+intents.message_content = True
 
 class DiscordClient(discord.Client):
     def __init__(self) -> None:
